@@ -1,0 +1,130 @@
+---
+// src/components/CookieBanner.astro
+---
+
+<div id="cookie-banner" class="cookie-banner">
+  <p>
+    Χρησιμοποιούμε cookies για να βελτιώσουμε την εμπειρία σας. Με τη χρήση της ιστοσελίδας συμφωνείτε με την 
+    <a href="/privacy-policy" target="_blank">Πολιτική Απορρήτου</a> μας.
+  </p>
+  <div class="cookie-buttons">
+    <button id="accept-cookies" class="cookie-btn accept">Αποδοχή</button>
+    <button id="decline-cookies" class="cookie-btn decline">Απόρριψη</button>
+  </div>
+</div>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 480px;
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    display: none; /* Κρυφό αρχικά, το JS αναλαμβάνει την εμφάνιση */
+    z-index: 9999;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .cookie-banner p {
+    margin: 0 0 16px 0;
+  }
+
+  .cookie-banner a {
+    color: #38bdf8;
+    text-decoration: underline;
+  }
+
+  .cookie-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .cookie-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+  }
+
+  .cookie-btn.accept {
+    background-color: #22c55e;
+    color: #ffffff;
+  }
+
+  .cookie-btn.accept:hover {
+    background-color: #16a34a;
+  }
+
+  .cookie-btn.decline {
+    background-color: #334155;
+    color: #f8fafc;
+  }
+
+  .cookie-btn.decline:hover {
+    background-color: #475569;
+  }
+</style>
+
+<script>
+  // Το Astro εκτελεί αυτό το script μόνο στον browser (client-side)
+  document.addEventListener("DOMContentLoaded", function () {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptBtn = document.getElementById("accept-cookies");
+    const declineBtn = document.getElementById("decline-cookies");
+
+    function setCookie(name: string, value: string, days: number) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    }
+
+    function getCookie(name: string) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === " ") c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    const cookieConsent = getCookie("user_cookie_consent");
+
+    if (!cookieConsent && cookieBanner) {
+      cookieBanner.style.display = "block";
+    } else if (cookieConsent === "accepted") {
+      enableAnalytics();
+    }
+
+    acceptBtn?.addEventListener("click", function () {
+      setCookie("user_cookie_consent", "accepted", 365);
+      if (cookieBanner) cookieBanner.style.display = "none";
+      enableAnalytics();
+    });
+
+    declineBtn?.addEventListener("click", function () {
+      setCookie("user_cookie_consent", "declined", 365);
+      if (cookieBanner) cookieBanner.style.display = "none";
+    });
+
+    function enableAnalytics() {
+      // Εδώ βάζεις τα scripts των analytics/trackers αν χρησιμοποιείς
+      // console.log("Analytics activated");
+    }
+  });
+</script>

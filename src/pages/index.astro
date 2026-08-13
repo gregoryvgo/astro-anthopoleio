@@ -1,0 +1,109 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.jsx";
+import HeroContent from "../components/HeroContent.jsx";
+import Collections from "../components/Collections.jsx";
+import Philosophy from "../components/Philosophy.jsx";
+import Contact from "../components/Contact.jsx";
+import Footer from "../components/Footer.astro";
+import { Image, getImage } from "astro:assets";
+
+import heroImage from "../assets/images/hero-flowers.jpg";
+import philosophyImageRaw from "../assets/images/philosophy.jpg";
+
+// Βελτιστοποίηση εικόνας για το React Component της Φιλοσοφίας
+const philosophyOptimized = await getImage({
+  src: philosophyImageRaw,
+  widths: [480, 768, 1080],
+  format: "webp",
+  quality: 85,
+});
+const philosophySrcSet = philosophyOptimized.srcSet.attribute;
+---
+
+<Layout>
+  <Navbar client:load />
+
+  <!-- ============================= HERO ============================= -->
+  <section
+    class="relative flex min-h-screen items-center justify-center overflow-hidden"
+  >
+    <!-- Background Wrapper με το Animation -->
+    <div class="absolute inset-0 h-full w-full overflow-hidden">
+      <Image
+        src={heroImage}
+        alt="Πολυτελής botanical σύνθεση με λευκά και τριανταφυλλί άνθη, Ανθοπωλείο «Ιωάννης»"
+        class="h-full w-full object-cover animate-hero-pan"
+        widths={[640, 960, 1440, 1920]}
+        sizes="100vw"
+        format="webp"
+        quality={85}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <!-- Overlay gradient -->
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-botanical-petrol/70 via-botanical-petrol/40 to-botanical-petrol/80 pointer-events-none"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative z-10 pt-24">
+      <HeroContent client:load />
+    </div>
+
+    <!-- Scroll cue -->
+    <div
+      class="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex pointer-events-none"
+      aria-hidden="true"
+    >
+      <span class="font-body text-[11px] uppercase tracking-[0.3em] text-white/70">
+        Μετακυλήστε
+      </span>
+      <span class="h-10 w-px bg-white/40"></span>
+    </div>
+  </section>
+
+  <!-- ============================= ΣΥΛΛΟΓΕΣ ============================= -->
+  <Collections client:visible />
+
+  <!-- ========================= Η ΦΙΛΟΣΟΦΙΑ ΜΑΣ ========================= -->
+  <Philosophy
+    client:visible
+    imageSrc={philosophyOptimized.src}
+    imageSrcSet={philosophySrcSet}
+    imageAlt="Ο Ιωάννης δημιουργεί μια ανθοδέσμη στο εργαστήριο του ανθοπωλείου"
+  />
+
+  <!-- ============================= ΕΠΙΚΟΙΝΩΝΙΑ ============================= -->
+  <Contact client:visible />
+
+  <Footer />
+</Layout>
+
+<style>
+  /* Ken Burns / Slow Zoom & Pan Animation */
+  @keyframes heroPan {
+    0% {
+      transform: scale(1) translate(0%, 0%);
+    }
+    50% {
+      transform: scale(1.12) translate(-1.5%, -1%);
+    }
+    100% {
+      transform: scale(1) translate(0%, 0%);
+    }
+  }
+
+  .animate-hero-pan {
+    animation: heroPan 25s ease-in-out infinite;
+    will-change: transform;
+  }
+</style>

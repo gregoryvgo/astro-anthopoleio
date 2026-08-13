@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Ανθοπωλείο «Ιωάννης» — Design Tokens
+   Tailwind v4 CSS-first configuration (no tailwind.config.ts)
+   ========================================================================== */
+
+@theme {
+  /* -- Χρώματα / Colors -------------------------------------------------- */
+  --color-botanical-petrol: #0B2528;
+  --color-botanical-petrol-light: #123A3F;
+  --color-warm-sand: #E5E2DC;
+  --color-warm-sand-light: #F3F1ED;
+  --color-white: #FFFFFF;
+  --color-rose-gold: #C9A48A;
+  --color-soft-amber: #D8B26A;
+
+  /* -- Typography ---------------------------------------------------------- */
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale για το hero headline */
+  --text-hero: clamp(2.75rem, 5.5vw, 5.5rem);
+  --text-hero--line-height: 1.05;
+  --text-hero--letter-spacing: -0.01em;
+
+  /* -- Spacing rhythm (οργανικό, γενναιόδωρο whitespace) ------------------- */
+  --spacing-section: 8rem;
+
+  /* -- Easing / Animation tokens -------------------------------------------- */
+  --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-up: fade-up 0.9s var(--ease-organic) forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ==========================================================================
+   Base layer
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-botanical-petrol);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  /* Ορατό keyboard focus παντού — προσβασιμότητα */
+  :focus-visible {
+    outline: 2px solid var(--color-rose-gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

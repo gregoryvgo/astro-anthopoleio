@@ -1,0 +1,104 @@
+---
+const year = new Date().getFullYear();
+
+const NAV_LINKS = [
+  { label: "Συλλογές", href: "#syllogesa" },
+  { label: "Η Φιλοσοφία μας", href: "#filosofia" },
+  { label: "Δημιουργίες", href: "#dimiourgies" },
+  { label: "Επικοινωνία", href: "#epikoinonia" },
+];
+
+const HOURS = [
+  { day: "Δευτέρα – Παρασκευή", time: "09:00 – 20:00" },
+  { day: "Σάββατο", time: "09:00 – 15:00" },
+  { day: "Κυριακή", time: "Κλειστά" },
+];
+---
+
+<footer class="bg-botanical-petrol-light">
+  <div class="mx-auto max-w-7xl px-6 py-20 md:px-10">
+    <div class="grid gap-14 md:grid-cols-[1.2fr_1fr_1fr]">
+      <!-- Brand -->
+      <div>
+        <p class="font-display text-2xl tracking-[0.28em] text-white">
+          ΙΩΑΝΝΗΣ
+        </p>
+        <p class="mt-5 max-w-xs font-body text-sm leading-relaxed text-white/60">
+          Χειροποίητες ανθοδέσμες και botanical συνθέσεις υψηλής αισθητικής,
+          για κάθε στιγμή που αξίζει να μείνει στη μνήμη.
+        </p>
+
+        <div class="mt-8 flex items-center gap-4">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Ακολουθήστε μας στο Instagram"
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-rose-gold hover:text-rose-gold"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="4.2" />
+              <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Ακολουθήστε μας στο Facebook"
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-rose-gold hover:text-rose-gold"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M15 8.5h2V5h-2c-2.2 0-4 1.8-4 4v2H9v3.5h2V21h3.5v-6.5H17l.5-3.5h-3V9c0-.55.45-1 1-1z" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Πλοήγηση -->
+      <nav aria-label="Πλοήγηση υποσέλιδου">
+        <p class="font-body text-xs uppercase tracking-[0.3em] text-white/40">
+          Πλοήγηση
+        </p>
+        <ul class="mt-6 space-y-3">
+          {NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="font-body text-sm text-white/75 transition-colors hover:text-rose-gold"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Ωράριο -->
+      <div>
+        <p class="font-body text-xs uppercase tracking-[0.3em] text-white/40">
+          Ωράριο Λειτουργίας
+        </p>
+        <ul class="mt-6 space-y-3">
+          {HOURS.map((row) => (
+            <li class="flex justify-between gap-4 font-body text-sm text-white/75">
+              <span>{row.day}</span>
+              <span class="text-white/50">{row.time}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+      <p class="font-body text-xs text-white/40">
+        © {year} Ανθοπωλείο «Ιωάννης». Με επιφύλαξη παντός δικαιώματος.
+      </p>
+      <p class="font-body text-xs text-white/40">
+        Ερμού 12, Αθήνα
+      </p>
+    </div>
+  </div>
+</footer>
