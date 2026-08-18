@@ -54,7 +54,7 @@ export default function HeroContent() {
         className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
       >
         <a
-          href="#syllogesa"
+          href="#sylloges"
           className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 font-body text-sm tracking-wide text-botanical-petrol transition-colors duration-300 hover:bg-soft-amber"
         >
           Ανακαλύψτε τις Συλλογές

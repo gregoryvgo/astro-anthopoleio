@@ -1,0 +1,190 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.astro";
+
+// Δείγμα δεδομένων για τις δημιουργίες (αντικαταστήστε τα URLs με τις δικές σας εικόνες)
+const creations = [
+  {
+    id: 1,
+    title: "Ρομαντική Αψίδα Γάμου",
+    category: "gamos",
+    categoryLabel: "Στολισμός Γάμου",
+    description: "Σύνθεση με λευκά τριαντάφυλλα, ορτανσίες και φύλλα ευκαλύπτου.",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 2,
+    title: "Νυφική Ανθοδέσμη Bohemian",
+    category: "gamos",
+    categoryLabel: "Στολισμός Γάμου",
+    description: "Ανθοδέσμη με pampas grass, αποξηραμένα στοιχεία και dusty rose άνθη.",
+    image: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 3,
+    title: "Βάπτιση Botanical Garden",
+    category: "vaptisi",
+    categoryLabel: "Στολισμός Βάπτισης",
+    description: "Διακόσμηση κολυμπήθρας και λαμπάδας με φυσικό χαμομήλι, λεβάντα και ελιά.",
+    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 4,
+    title: "Candy Bar & Ανθοσυνθέσεις Βάπτισης",
+    category: "vaptisi",
+    categoryLabel: "Στολισμός Βάπτισης",
+    description: "Παστέλ αποχρώσεις με παιώνιες και διακοσμητικά centerpieces.",
+    image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 5,
+    title: "Διακόσμηση Τραπεζιών Δεξίωσης",
+    category: "gamos",
+    categoryLabel: "Στολισμός Γάμου",
+    description: "Centerpieces με ψηλά κηροπήγια και πλούσιες ανθοδέσμες.",
+    image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 6,
+    title: "Floral Styling Εκδηλώσεων",
+    category: "events",
+    categoryLabel: "Εκδηλώσεις",
+    description: "Εντυπωσιακές συνθέσεις για εταιρικά events και ιδιωτικές γιορτές.",
+    image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=800&q=80",
+  },
+];
+---
+
+<Layout title="Δημιουργίες | Ανθοπωλείο Ιωάννης">
+  <Navbar client:load forceSolid={true} />
+
+  <main class="bg-[#faf8f5] pt-32 pb-24 text-slate-800">
+    <!-- Header Τίτλος -->
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <span class="font-body text-xs uppercase tracking-[0.35em] text-[#a27b5c]">
+        Portfolio &amp; Έμπνευση
+      </span>
+      <h1 class="font-display mt-3 text-4xl font-medium tracking-tight text-slate-900 sm:text-5xl">
+        Οι Δημιουργίες μας
+      </h1>
+      <p class="font-body mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+        Κάθε στιγμή είναι μοναδική. Δημιουργούμε εξατομικευμένες ανθοσυνθέσεις για γάμους, βαπτίσεις και ξεχωριστές περιστάσεις.
+      </p>
+
+      <!-- Κουμπιά Φίλτρων -->
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <button
+          class="filter-btn rounded-full bg-slate-900 px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-all shadow-sm active"
+          data-filter="all"
+        >
+          Όλα
+        </button>
+        <button
+          class="filter-btn rounded-full border border-slate-300 bg-white px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-slate-700 transition-all hover:bg-slate-50"
+          data-filter="gamos"
+        >
+          Γάμοι
+        </button>
+        <button
+          class="filter-btn rounded-full border border-slate-300 bg-white px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-slate-700 transition-all hover:bg-slate-50"
+          data-filter="vaptisi"
+        >
+          Βαπτίσεις
+        </button>
+        <button
+          class="filter-btn rounded-full border border-slate-300 bg-white px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-slate-700 transition-all hover:bg-slate-50"
+          data-filter="events"
+        >
+          Εκδηλώσεις
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid Gallery -->
+    <div class="mx-auto mt-16 max-w-7xl px-6">
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          creations.map((item) => (
+            <article
+              class="creation-card group overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              data-category={item.category}
+            >
+              <div class="relative aspect-4/3 overflow-hidden bg-slate-100">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span class="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur-md px-3.5 py-1 text-xs font-medium text-slate-800 shadow-sm">
+                  {item.categoryLabel}
+                </span>
+              </div>
+              <div class="p-6">
+                <h3 class="font-display text-xl font-medium text-slate-900 group-hover:text-[#a27b5c] transition-colors">
+                  {item.title}
+                </h3>
+                <p class="font-body mt-2 text-sm leading-relaxed text-slate-600">
+                  {item.description}
+                </p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Call to Action Banner -->
+    <div class="mx-auto mt-24 max-w-5xl px-6">
+      <div class="rounded-3xl bg-slate-900 px-8 py-12 text-center text-white sm:px-16 sm:py-16">
+        <h2 class="font-display text-2xl font-medium sm:text-3xl">
+          Σχεδιάζετε τη δική σας μοναδική στιγμή;
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl text-slate-300 text-sm sm:text-base">
+          Επικοινωνήστε μαζί μας για να συζητήσουμε τις ιδέες σας και να σχεδιάσουμε τον κατάλληλο στολισμό για την περίστασή σας.
+        </p>
+        <div class="mt-8">
+          <a
+            href="/#epikoinonia"
+            class="inline-flex items-center rounded-full bg-white px-8 py-3.5 text-sm font-medium tracking-wide text-slate-900 transition-colors duration-300 hover:bg-[#ebd4be]"
+          >
+            Κλείστε Ραντεβού
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<!-- Client-side script για το φιλτράρισμα των κατηγοριών -->
+<script>
+  const buttons = document.querySelectorAll(".filter-btn");
+  const cards = document.querySelectorAll<HTMLElement>(".creation-card");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Ενημέρωση ενεργού κουμπιού
+      buttons.forEach((btn) => {
+        btn.classList.remove("bg-slate-900", "text-white", "active");
+        btn.classList.add("bg-white", "text-slate-700", "border", "border-slate-300");
+      });
+      button.classList.add("bg-slate-900", "text-white", "active");
+      button.classList.remove("bg-white", "text-slate-700", "border", "border-slate-300");
+
+      const filter = button.getAttribute("data-filter");
+
+      // Εμφάνιση / Απόκρυψη καρτών
+      cards.forEach((card) => {
+        const category = card.getAttribute("data-category");
+        if (filter === "all" || category === filter) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+</script>

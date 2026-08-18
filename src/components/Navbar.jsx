@@ -3,13 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "Συλλογές", href: "#sylloges" }, // Διορθώθηκε το anchor link
-  { label: "Η Φιλοσοφία μας", href: "#filosofia" },
-  { label: "Δημιουργίες", href: "#dimiourgies" },
-  { label: "Επικοινωνία", href: "#epikoinonia" },
+  { label: "Συλλογές", href: "/#sylloges" },
+  { label: "Η Φιλοσοφία μας", href: "/#filosofia" },
+  { label: "Δημιουργίες", href: "/creations" },
+  { label: "Επικοινωνία", href: "/#epikoinonia" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ forceSolid = false }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -20,7 +20,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Κλείδωμα scroll όσο είναι ανοιχτό το mobile menu
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
@@ -28,7 +27,8 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  const isSolid = isScrolled || isMenuOpen;
+  // Εάν είναι forceSolid, είναι πάντα σκούρα τα γράμματα και λευκό το φόντο
+  const isSolid = forceSolid || isScrolled || isMenuOpen;
 
   return (
     <header
@@ -66,7 +66,7 @@ export default function Navbar() {
           ))}
           <li>
             <a
-              href="#epikoinonia"
+              href="/#epikoinonia"
               className={`rounded-full border px-5 py-2 text-sm tracking-wide transition-colors duration-500 ${
                 isSolid
                   ? "border-botanical-petrol text-botanical-petrol hover:bg-botanical-petrol hover:text-white"
@@ -98,7 +98,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden bg-white md:hidden"
+            className="overflow-hidden bg-white shadow-xl md:hidden"
           >
             <ul className="flex flex-col gap-1 px-6 pb-8 pt-2">
               {NAV_LINKS.map((link, i) => (
@@ -111,7 +111,7 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block border-b border-warm-sand py-4 font-body text-base text-botanical-petrol"
+                    className="block border-b border-warm-sand/30 py-4 font-body text-base font-medium text-botanical-petrol transition-colors hover:text-rose-gold"
                   >
                     {link.label}
                   </a>
@@ -124,9 +124,9 @@ export default function Navbar() {
                 className="pt-4"
               >
                 <a
-                  href="#epikoinonia"
+                  href="/#epikoinonia"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block rounded-full bg-botanical-petrol px-5 py-3 text-center text-sm tracking-wide text-white"
+                  className="block rounded-full bg-botanical-petrol px-5 py-3.5 text-center font-body text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
                 >
                   Κλείστε Ραντεβού
                 </a>
