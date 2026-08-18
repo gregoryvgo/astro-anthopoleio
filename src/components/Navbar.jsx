@@ -3,10 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "Συλλογές", href: "/#sylloges" },
-  { label: "Η Φιλοσοφία μας", href: "/#filosofia" },
-  { label: "Δημιουργίες", href: "/creations" },
-  { label: "Επικοινωνία", href: "/#epikoinonia" },
+  { label: "Συλλογές", href: "/#sylloges", id: "sylloges" },
+  { label: "Η Φιλοσοφία μας", href: "/#filosofia", id: "filosofia" },
+  { label: "Δημιουργίες", href: "/creations", id: null },
+  { label: "Επικοινωνία", href: "/#epikoinonia", id: "epikoinonia" },
 ];
 
 export default function Navbar({ forceSolid = false }) {
@@ -27,8 +27,23 @@ export default function Navbar({ forceSolid = false }) {
     };
   }, [isMenuOpen]);
 
-  // Εάν είναι forceSolid, είναι πάντα σκούρα τα γράμματα και λευκό το φόντο
   const isSolid = forceSolid || isScrolled || isMenuOpen;
+
+  const handleLinkClick = (e, link) => {
+    setIsMenuOpen(false);
+
+    // Αν είμαστε ήδη στην αρχική σελίδα και είναι anchor link
+    if (link.id && (window.location.pathname === "/" || window.location.pathname === "")) {
+      e.preventDefault();
+      setTimeout(() => {
+        const target = document.getElementById(link.id);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `/#${link.id}`);
+        }
+      }, 100);
+    }
+  };
 
   return (
     <header
@@ -39,7 +54,6 @@ export default function Navbar({ forceSolid = false }) {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
-        {/* Brand */}
         <a
           href="/"
           className={`font-display text-xl tracking-[0.28em] transition-colors duration-500 ${
@@ -55,6 +69,7 @@ export default function Navbar({ forceSolid = false }) {
             <li key={link.href}>
               <a
                 href={link.href}
+                onClick={(e) => handleLinkClick(e, link)}
                 className={`group relative font-body text-sm tracking-wide transition-colors duration-500 ${
                   isSolid ? "text-botanical-petrol" : "text-white"
                 }`}
@@ -67,6 +82,7 @@ export default function Navbar({ forceSolid = false }) {
           <li>
             <a
               href="/#epikoinonia"
+              onClick={(e) => handleLinkClick(e, { href: "/#epikoinonia", id: "epikoinonia" })}
               className={`rounded-full border px-5 py-2 text-sm tracking-wide transition-colors duration-500 ${
                 isSolid
                   ? "border-botanical-petrol text-botanical-petrol hover:bg-botanical-petrol hover:text-white"
@@ -97,7 +113,7 @@ export default function Navbar({ forceSolid = false }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden bg-white shadow-xl md:hidden"
           >
             <ul className="flex flex-col gap-1 px-6 pb-8 pt-2">
@@ -106,11 +122,11 @@ export default function Navbar({ forceSolid = false }) {
                   key={link.href}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i, duration: 0.4 }}
+                  transition={{ delay: 0.04 * i, duration: 0.3 }}
                 >
                   <a
                     href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => handleLinkClick(e, link)}
                     className="block border-b border-warm-sand/30 py-4 font-body text-base font-medium text-botanical-petrol transition-colors hover:text-rose-gold"
                   >
                     {link.label}
@@ -120,12 +136,12 @@ export default function Navbar({ forceSolid = false }) {
               <motion.li
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.05 * NAV_LINKS.length, duration: 0.4 }}
+                transition={{ delay: 0.04 * NAV_LINKS.length, duration: 0.3 }}
                 className="pt-4"
               >
                 <a
                   href="/#epikoinonia"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => handleLinkClick(e, { href: "/#epikoinonia", id: "epikoinonia" })}
                   className="block rounded-full bg-botanical-petrol px-5 py-3.5 text-center font-body text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
                 >
                   Κλείστε Ραντεβού
